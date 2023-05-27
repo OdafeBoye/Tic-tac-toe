@@ -40,19 +40,29 @@ function checkScore() {
     ]
 
     winningCombos.forEach(array => {
-        const circleWins = array.every(_cell => allSquares[_cell].firstChild?.classList.contains('circle'))
+        const circleWins = array.every(cell => allSquares[cell].firstChild?.classList.contains('circle'))
         if (circleWins) {
             infoDisplay.textContent = "Circle Wins"
-            allSquares.forEach(square => square.replaceWith(square.cloneNode(true)))//replace removes eventlisteners(actually you cant remove eventlisteners)
+            setTimeout(resetBoard, 1000)
+            //allSquares.forEach(square => square.replaceWith(square.cloneNode(true)))  //replace removes eventlisteners(actually you cant remove eventlisteners)
             return
         }
-    })
-    winningCombos.forEach(array => {
-        const crossWins = array.every(_cell => allSquares[_cell].firstChild?.classList.contains('cross'))
+        const crossWins = array.every(cell => allSquares[cell].firstChild?.classList.contains('cross'))
         if (crossWins) {
             infoDisplay.textContent = "Cross Wins"
-            allSquares.forEach(squares => square.replaceWith(square.cloneNode(true)))//replace removes eventlisteners(actually you cant remove eventlisteners)
+            setTimeout(resetBoard, 1000)
             return
         }
     })
+    
+}
+
+function resetBoard() {
+    const allSquares = document.querySelectorAll(".square")
+    allSquares.forEach(square => {
+        square.textContent = ""
+        square.addEventListener('click', addGo)
+    })
+    go = 'circle'
+    infoDisplay.textContent = "Circle goes first"
 }
